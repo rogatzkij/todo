@@ -18,7 +18,7 @@ const (
 	sWRITEUSER = `INSERT INTO E1_Users (login, email, hash) VALUES (?, ?, ?)`
 )
 
-func (todo *DBtodo) writeUser(login, pswd, email string) (bool, error) {
+func (todo *DBtodo) WriteUser(login, pswd, email string) (bool, error) {
 
 	hashBytes := (md5.Sum([]byte(pswd)))
 	hash := fmt.Sprintf("%x", hashBytes)
