@@ -22,7 +22,7 @@ func main() {
 		panic(err)
 	}
 
-	//	db.writeUser("test", "pass", "test@test.com")
+	db.writeUser("test", "pass", "test@test.com")
 
 	usr, ok := db.getUser("test", "pass", "test@test.com")
 	if ok {

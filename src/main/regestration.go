@@ -18,19 +18,24 @@ const (
 	sWRITEUSER = `INSERT INTO E1_Users (login, email, hash) VALUES (?, ?, ?)`
 )
 
-func (todo *DBtodo) writeUser(login, pswd, email string) error {
+func (todo *DBtodo) writeUser(login, pswd, email string) (bool, error) {
 
 	hashBytes := (md5.Sum([]byte(pswd)))
 	hash := fmt.Sprintf("%x", hashBytes)
 
 	debug(fmt.Sprintf("Хэш %s %s", pswd, hash))
 
-	_, err := todo.database.Exec(sWRITEUSER, login, email, hash)
-	if err != nil {
-		return fmt.Errorf("Неудачная запись пользователя %s", login)
+	// проверка на существование пользователя
+	if exist, _ := todo.isExistUser(login, email); exist {
+		return false, nil
 	}
 
-	return nil
+	_, err := todo.database.Exec(sWRITEUSER, login, email, hash)
+	if err != nil {
+		return false, fmt.Errorf("Неудачная запись пользователя %s", login)
+	}
+
+	return true, nil
 }
 
 /*
@@ -60,4 +65,27 @@ func (todo *DBtodo) getUser(login, pswd, email string) (User, bool) {
 	}
 
 	return usr, true
+}
+
+/*
+	Получить пользователя
+*/
+
+const (
+	sGETUSERCOUNT = `SELECT count(*) FROM E1_Users WHERE login=? OR email=?`
+)
+
+func (todo *DBtodo) isExistUser(login, email string) (bool, error) {
+	var count int
+
+	err := todo.database.Get(&count, sGETUSERCOUNT, login, email)
+
+	if err != nil {
+		return false, fmt.Errorf("Ошибочка %s", login)
+	}
+
+	if count > 0 {
+		return true, nil
+	}
+	return false, nil
 }

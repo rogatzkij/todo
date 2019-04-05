@@ -1,18 +1,18 @@
 CREATE DATABASE todo;
 USE todo;
 /*
-	Пользователи
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E1_Users
 (
 	login	VARCHAR(20)	NOT NULL,
 	email	TINYTEXT	NOT NULL,
-	hash	VARCHAR(20)	NOT NULL,
+	hash	VARCHAR(32)	NOT NULL,
 	PRIMARY KEY (login)
 );
 
 /*
-	Доступные сессии
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E2_Session
 (
@@ -24,7 +24,7 @@ CREATE TABLE E2_Session
 );
 
 /*
-	Активные Дела
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E3_Tasks
 (
@@ -39,7 +39,7 @@ CREATE TABLE E3_Tasks
 );
 
 /*
-	Архивные Дела
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E4_Archive
 (
@@ -54,7 +54,7 @@ CREATE TABLE E4_Archive
 );
 
 /*
-	Дополнительная информация
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E5_AdditionalInformation
 (
@@ -67,7 +67,7 @@ CREATE TABLE E5_AdditionalInformation
 );
 
 /*
-	Награды
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E6_Achievement
 (
@@ -78,7 +78,7 @@ CREATE TABLE E6_Achievement
 );
 
 /*
-	Награды пользователя
+	пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 */
 CREATE TABLE E7_UsersAchievement
 (
