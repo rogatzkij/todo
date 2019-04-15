@@ -51,7 +51,7 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 	inputLogin := r.FormValue("login")
 	inputPass := r.FormValue("password")
 
-	user, ok := ToDoDatabase.getUser(inputLogin, inputPass, inputLogin)
+	user, ok := ToDoDatabase.GetUser(inputLogin, inputPass, inputLogin)
 	if ok {
 		fmt.Fprintln(w, "Все хорошо, ты: ", user.Login, user.Email, user.Hash)
 		return

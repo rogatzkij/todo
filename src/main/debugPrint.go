@@ -6,7 +6,7 @@ const (
 	DEBUG = true
 )
 
-func debug(msg string) {
+func Debug(msg string) {
 
 	if DEBUG {
 		fmt.Println(msg)

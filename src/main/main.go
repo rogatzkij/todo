@@ -1,21 +1,23 @@
 package main
 
 import (
+	"main/dbwork"
+
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var ToDoDatabase DBtodo
+var ToDoDatabase dbwork.DBtodo
 
 func main() {
 
-	ToDoDatabase.driverName = "mysql"
-	ToDoDatabase.login = "root"
-	ToDoDatabase.password = ""
-	ToDoDatabase.adress = "localhost"
-	ToDoDatabase.port = 3306
-	ToDoDatabase.databaseName = "todo"
+	ToDoDatabase.DriverName = "mysql"
+	ToDoDatabase.Login = "root"
+	ToDoDatabase.Password = ""
+	ToDoDatabase.Adress = "localhost"
+	ToDoDatabase.Port = 3306
+	ToDoDatabase.DatabaseName = "todo"
 
-	err := ToDoDatabase.connect()
+	err := ToDoDatabase.Connect()
 	if err != nil {
 		panic(err)
 	}

@@ -1,4 +1,4 @@
-package main
+package dbwork
 
 import "fmt"
 
@@ -18,14 +18,14 @@ const (
 func (todo *DBtodo) SearchUserByCookie(cookie string) (string, bool) {
 	var ck CookieTodo
 
-	err := todo.database.Select(&ck, sUSERBYCOOKIE, cookie)
+	err := todo.Database.Select(&ck, sUSERBYCOOKIE, cookie)
 
 	if err != nil {
-		debug(fmt.Sprintf("Нет куки %s", cookie))
+		//		Debug(fmt.Sprintf("Нет куки %s", cookie))
 		return "", false
 	}
 
-	debug(fmt.Sprintf("Кука найдена %s - @%s", cookie, ck.Cookie))
+	//	Debug(fmt.Sprintf("Кука найдена %s - @%s", cookie, ck.Cookie))
 	return ck.Cookie, true
 }
 
@@ -38,7 +38,7 @@ const (
 
 func (todo *DBtodo) WriteCookie(login, cookie string) error {
 
-	_, err := todo.database.Exec(sWRITECOOKIE, login, cookie)
+	_, err := todo.Database.Exec(sWRITECOOKIE, login, cookie)
 	if err != nil {
 		return fmt.Errorf("Неудачная запись %s", cookie)
 	}
@@ -55,7 +55,7 @@ const (
 
 func (todo *DBtodo) DeleteCookie(cookie string) error {
 
-	_, err := todo.database.Exec(sDELETECOOKIE, cookie)
+	_, err := todo.Database.Exec(sDELETECOOKIE, cookie)
 	if err != nil {
 		return fmt.Errorf("Неудачное удаление %s", cookie)
 	}
@@ -72,7 +72,7 @@ const (
 
 func (todo *DBtodo) DeleteAllCookie(login string) error {
 
-	_, err := todo.database.Exec(sDELETEALLCOOKIE, login)
+	_, err := todo.Database.Exec(sDELETEALLCOOKIE, login)
 	if err != nil {
 		return fmt.Errorf("Неудачное удаление cookie для %s", login)
 	}
