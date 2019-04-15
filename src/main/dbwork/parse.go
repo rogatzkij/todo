@@ -2,15 +2,23 @@ package dbwork
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 )
 
-// чтение настроек из конфиг файла
-func (todo *DBtodo) ParseSQLSettings(path string) {
+const (
+	msgErrorOpenFile   = "could not open file %s"
+	msgErrorCreateFile = "failed to create file %s"
+	msgErrorBrokenFile = "file %s is broken"
+	msgInfoCreateFile  = "created file %s with default settings"
+)
+
+// ParseSQLSettings - чтение настроек из конфиг файла
+func (todo *DBtodo) ParseSQLSettings(path string) error {
 
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil { // если файла нет создаем с настройками поумолчанию
-		todo.Log.Error("Не удалось открыть файл " + path)
+		todo.Log.Errorf(msgErrorOpenFile, path)
 
 		todo.DriverName = "mysql"
 		todo.Login = "root"
@@ -23,20 +31,17 @@ func (todo *DBtodo) ParseSQLSettings(path string) {
 
 		err = ioutil.WriteFile(path, bytes, 0644)
 		if err != nil {
-			todo.Log.Error("Не удалось создать файл " + path)
+			todo.Log.Errorf(msgErrorCreateFile, path)
 		}
 
-		todo.Log.Error("Создан файл с начальными настройками " + path)
-		return
+		todo.Log.Infof(msgInfoCreateFile, path)
+		return nil
 	}
 
 	err = json.Unmarshal(bytes, todo)
 	if err != nil {
-		todo.Log.Error("Файл испорчен " + path)
+		todo.Log.Errorf(msgErrorBrokenFile, path)
+		return fmt.Errorf(msgErrorBrokenFile, path)
 	}
-
-}
-
-func (t *DBtodo) ParseTemplateSettings(path string) {
-
+	return nil
 }

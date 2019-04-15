@@ -10,9 +10,12 @@ var ToDoDatabase dbwork.DBtodo
 
 func main() {
 	ToDoDatabase.LogInit()
-	ToDoDatabase.ParseSQLSettings("SQL.config")
+	err := ToDoDatabase.ParseSQLSettings("SQL.config")
+	if err != nil {
+		return
+	}
 
-	err := ToDoDatabase.Connect()
+	err = ToDoDatabase.Connect()
 	if err != nil {
 		return
 	}
