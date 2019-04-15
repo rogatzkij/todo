@@ -8,9 +8,7 @@ type CookieTodo struct {
 	Login     string `db:"login"`
 }
 
-/*
-	Проверить наличие cookie в БД
-*/
+// Проверить наличие cookie в БД
 const (
 	sUSERBYCOOKIE = `SELECT * FROM E2_Session WHERE cookie=?`
 )
@@ -29,9 +27,7 @@ func (todo *DBtodo) SearchUserByCookie(cookie string) (string, bool) {
 	return ck.Cookie, true
 }
 
-/*
-	Записать cookie
-*/
+// Записать cookie
 const (
 	sWRITECOOKIE = `INSERT INTO E2_Session (login, cookie) VALUES (?, ?)`
 )
@@ -46,9 +42,7 @@ func (todo *DBtodo) WriteCookie(login, cookie string) error {
 	return nil
 }
 
-/*
-	Удалить cookie из БД
-*/
+// Удалить cookie из БД
 const (
 	sDELETECOOKIE = `DELETE FROM E2_Session where cookie=?`
 )
@@ -63,9 +57,7 @@ func (todo *DBtodo) DeleteCookie(cookie string) error {
 	return nil
 }
 
-/*
-	Удалить все cookie для пользователя
-*/
+//	Удалить все cookie для пользователя
 const (
 	sDELETEALLCOOKIE = `DELETE FROM E2_Session where login=?`
 )

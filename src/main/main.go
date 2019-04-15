@@ -9,17 +9,12 @@ import (
 var ToDoDatabase dbwork.DBtodo
 
 func main() {
-
-	ToDoDatabase.DriverName = "mysql"
-	ToDoDatabase.Login = "root"
-	ToDoDatabase.Password = ""
-	ToDoDatabase.Adress = "localhost"
-	ToDoDatabase.Port = 3306
-	ToDoDatabase.DatabaseName = "todo"
+	ToDoDatabase.LogInit()
+	ToDoDatabase.ParseSQLSettings("SQL.config")
 
 	err := ToDoDatabase.Connect()
 	if err != nil {
-		panic(err)
+		return
 	}
 
 	serv()

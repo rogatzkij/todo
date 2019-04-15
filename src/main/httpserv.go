@@ -3,13 +3,17 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 const (
-	sTEMPLATE_FLOADER = "./templates"
+	sTEMPLATE_FLOADER = "./templates" // путь с шаблонами страниц
 )
 
+// страница регистрации
 func registrationPage(w http.ResponseWriter, r *http.Request) {
 
 	path := sTEMPLATE_FLOADER + "/registration.html"
@@ -33,6 +37,7 @@ func registrationPage(w http.ResponseWriter, r *http.Request) {
 	ToDoDatabase.WriteUser(inputLogin, inputPass, inputEmail)
 }
 
+// страница авторизации
 func loginPage(w http.ResponseWriter, r *http.Request) {
 
 	path := sTEMPLATE_FLOADER + "/login.html"
@@ -60,10 +65,36 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func serv() {
-	http.HandleFunc("/login", loginPage)
-	http.HandleFunc("/", registrationPage)
+// главная страница
+func mainPage(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("starting server at :8080")
-	http.ListenAndServe(":8080", nil)
+}
+
+// мидлвар авторизации
+func authMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+		ToDoDatabase.Log.Info("adminAuthMiddleware", r.URL.Path)
+
+		_, err := r.Cookie("session_id")
+		// учебный пример! это не проверка авторизации!
+		if err != nil {
+			fmt.Println("no auth at", r.URL.Path)
+			http.Redirect(w, r, "/", http.StatusFound)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+// слушаем порт
+func serv() {
+	r := mux.NewRouter()
+
+	r.HandleFunc("/login", loginPage)
+	r.HandleFunc("/", registrationPage)
+
+	ToDoDatabase.Log.Info("starting server at :8080")
+
+	log.Fatal(http.ListenAndServe(":8080", r))
 }
