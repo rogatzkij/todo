@@ -14,17 +14,17 @@ const (
 )
 
 func (todo *DBtodo) SearchUserByCookie(cookie string) (string, bool) {
-	var ck CookieTodo
+	var ck []CookieTodo
 
 	err := todo.Database.Select(&ck, sUSERBYCOOKIE, cookie)
 
-	if err != nil {
-		//		Debug(fmt.Sprintf("Нет куки %s", cookie))
+	if err != nil || len(ck) == 0 {
+		// f("Нет куки %s", cookie))
 		return "", false
 	}
 
 	//	Debug(fmt.Sprintf("Кука найдена %s - @%s", cookie, ck.Cookie))
-	return ck.Cookie, true
+	return ck[0].Login, true
 }
 
 // Записать cookie

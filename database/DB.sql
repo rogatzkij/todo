@@ -17,7 +17,7 @@ CREATE TABLE E1_Users
 CREATE TABLE E2_Session
 (
 	idSession            INTEGER AUTO_INCREMENT,
-	cookie               VARCHAR(20) NULL,
+	cookie               VARCHAR(32) NULL,
 	login                VARCHAR(20) NOT NULL,
 	PRIMARY KEY (idSession),
 	FOREIGN KEY (login) REFERENCES E1_Users(login)
