@@ -1,0 +1,43 @@
+:root {
+    --menu-free-bg:  #CEF9F4;
+    --menu-free-text:  #247BA0;
+
+    --menu-choise-bg:  #ABEAF6;
+    --menu-choise-border:  #605856;
+    --menu-choise-text:  #247BA0;
+}
+
+/* Меню */
+.block-menu{
+    width: 35vh;
+
+    background-color: var(--menu-free-bg);
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: var(--menu-free-bg);
+}
+
+li a {
+    transition-duration: 0.1s;
+    transition-timing-function: ease;
+
+    display: block;
+    color: var(--menu-free-text);
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+
+li a:hover {
+    color: var(--menu-choise-text);
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+
+    background-color: var(--menu-choise-bg);
+    border-right: 5px solid var(--menu-choise-border);
+}

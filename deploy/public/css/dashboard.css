@@ -1,0 +1,149 @@
+
+/* Цвета*/
+:root {
+    --bg-color: #F4F9F9 ;
+  
+    --footer-bg: #E1F0C4;
+    --footer-text: #247BA0;
+}
+
+.dashboard-page{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--bg-color);
+}
+
+.dashboard-header{
+   display: none;
+}
+
+.dashboard-content{
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+}
+
+.dashboard-footer{
+    flex-shrink: 0;
+    padding: 10px;
+
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+}
+
+/* Содержимое контента */
+.dashboard-menu{
+    width: 35vh;
+
+    background-color: var(--menu-free-bg);
+}
+
+/* Мелочи */
+h1 {
+    text-align: center;
+    font-size: 25px;
+    color: var(--window-text);
+}
+  
+h2 {
+    text-align: left;
+    font-size: 17px;
+    color: var(--window-text);
+
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    padding: 0px;
+}
+
+/* ------------- */
+.dashboard-dashboard{
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.task-block{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 4px;
+    border: 2px solid red;
+}
+
+.task{
+    display: flex;
+    flex-direction: column;
+    margin: 4px;
+    border: solid #247BA0 3px;
+    width: 400px;
+}
+
+.task-head-block{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    padding:5px
+}
+
+.task-body-block{
+    display: flex;
+    flex-direction: column;
+    padding:5px
+}
+
+.task-btn-block{
+    display: flex;
+    flex-direction: row;
+    padding:5px
+}
+
+.task-headline{
+    border-bottom: 2px solid red;
+}
+
+.task-text{
+    
+}
+
+.btn{
+    margin-left: 4px; 
+    height: 25px;
+
+    font-size: 17px;
+    border-radius: 4px;
+}
+
+.done-btn{
+    background-color: mediumseagreen;
+}
+.edit-btn{
+    background-color: orange;
+}
+.delete-btn{
+    background-color: tomato;
+}
+
+.fixedbut { 
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    display: block;
+
+    padding: 6px 23px;
+    font-size: 17px;
+
+    transition-duration: 0.2s;
+}
+.fixedbut:hover {
+    background: #222;
+ }

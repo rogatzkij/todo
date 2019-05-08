@@ -1,5 +1,8 @@
+
+GRANT ALL PRIVILEGES ON *.* TO root@'%' IDENTIFIED BY '123456';
 CREATE DATABASE todo;
 USE todo;
+
 /*
 	������������
 */

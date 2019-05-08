@@ -20,6 +20,19 @@ func main() {
 	if err != nil {
 		return
 	}
+	/*
+		var task dbwork.Task
+		task.Login = "admin"
+		task.Title.Scan("title")
+		task.Description.Scan("descr")
+		task.Defer.Scan("1")
+		task.DateEnd.Scan("12-12-2012")
+
+		ToDoDatabase.AddTask(task)
+
+		task1, b := ToDoDatabase.GetAllTasks("admin")
+		fmt.Printf("%v \n err %v", task1, b)
+	*/
 
 	serv()
 }

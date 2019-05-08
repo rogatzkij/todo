@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"main/dbwork"
 	"net/http"
+	"text/template"
 	"time"
 )
 
@@ -98,21 +100,62 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(loginForm)
 	return
+}
 
+type TasksToTemplate struct {
+	Today    []dbwork.Task
+	Tomorrow []dbwork.Task
+	Soon     []dbwork.Task
 }
 
 // страница с делами
 func dashboardPage(w http.ResponseWriter, r *http.Request) {
-	path := sTEMPLATE_FLOADER + "/dashboard.html"
-
-	loginForm, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Файл %s не найден\n", path)
+	switch r.Method {
+	case "GET":
+		dashboardPageGET(w, r)
+	case "POST":
+		dashboardPagePOST(w, r)
+	case "PUT":
+	case "DELETE":
+	default:
 		return
 	}
+}
 
-	w.Write(loginForm)
-	return
+func dashboardPageGET(w http.ResponseWriter, r *http.Request) {
+	// узнаем имя из кук
+	cookie, _ := r.Cookie("session_id")
+	username, _ := ToDoDatabase.SearchUserByCookie(cookie.Value)
+
+	// читаем дела
+	TodayTasks, _ := ToDoDatabase.GetAllTasks(username)
+
+	// вставляем в шаблон
+	tmpl := template.Must(template.ParseFiles(sTEMPLATE_FLOADER + "/dashboard.html"))
+	tmpl.Execute(w, TasksToTemplate{
+		Today: TodayTasks,
+	})
+
+	w.WriteHeader(http.StatusOK)
+}
+
+func dashboardPagePOST(w http.ResponseWriter, r *http.Request) {
+
+	// узнаем имя из кук
+	cookie, _ := r.Cookie("session_id")
+	username, _ := ToDoDatabase.SearchUserByCookie(cookie.Value)
+
+	task := dbwork.Task{}
+
+	task.Login = username
+	task.Title.Scan(r.FormValue("title"))
+	fmt.Print(r.FormValue("title"))
+	task.Description.Scan(r.FormValue("description"))
+	task.DateEnd.Scan(r.FormValue("date"))
+
+	ToDoDatabase.AddTask(task)
+
+	dashboardPageGET(w, r)
 }
 
 // ============================

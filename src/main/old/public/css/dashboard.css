@@ -1,0 +1,79 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h2{
+    
+}
+
+/* Style the side navigation */
+.sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+}
+
+/* Side navigation links */
+.sidenav a {
+    color: white;
+    padding: 16px;
+    text-decoration: none;
+    display: block;
+}
+
+/* Change color on hover */
+.sidenav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Style the content */
+.content {
+    margin-left: 200px;
+    padding-left: 20px;
+}
+
+/*кнопки*/
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+    height: 20px;
+    width: 30px;
+    
+}
+.button1 {background-color: #008CBA;} /* Green */
+.button2 {background-color: #4CAF50; } /* Blue */
+.button3 {background-color: #f44336;} /* Red */ 
+
+/* флексы */
+.flex-container{
+    display: flex;
+    justify-content: center;
+}
+
+.flex-text{
+ 
+}
+
+.flex-btn{
+
+}

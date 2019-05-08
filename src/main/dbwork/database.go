@@ -28,7 +28,7 @@ const (
 // Connect - установление соединения с БД
 func (db *DBtodo) Connect() error {
 
-	querry := fmt.Sprintf("%s:@tcp(%s:%d)/%s", db.Login, db.Adress, db.Port, db.DatabaseName)
+	querry := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", db.Login, db.Password, db.Adress, db.Port, db.DatabaseName)
 	db.Log.Infof(msgInfoQuerry, querry)
 
 	conn, err := sqlx.Connect(db.DriverName, querry)
