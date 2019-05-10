@@ -1,6 +1,4 @@
-
-GRANT ALL PRIVILEGES ON *.* TO root@'%' IDENTIFIED BY '123456';
-CREATE DATABASE todo;
+CREATE DATABASE todo DEFAULT charset utf8;
 USE todo;
 
 /*

@@ -1,0 +1,6 @@
+docker run --name mysqlserver -e MYSQL_ROOT_PASSWORD=123456 -d mariadb
+docker run --link container:local -p 
+
+docker run -d -p 8081:8080 adminer
+
+docker run --name mysql_todo -e MYSQL_ROOT_PASSWORD=123456 -d mariadb

@@ -217,6 +217,6 @@ func serv() {
 	fullMux.Handle("/", authMiddleware(userMux))
 	fullMux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
-	ToDoDatabase.Log.Info("starting server at :8080")
-	log.Fatal(http.ListenAndServe(":8080", fullMux))
+	ToDoDatabase.Log.Info("starting server at :80")
+	log.Fatal(http.ListenAndServe(":80", fullMux))
 }
