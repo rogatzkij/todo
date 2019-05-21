@@ -1,0 +1,84 @@
+
+/* Цвета*/
+:root {
+    --bg-color: #F4F9F9 ;
+
+    --window-text:  #247BA0;
+    --window-bg:  #E1F0C4;
+    --window-border:  #605856;
+
+    --input-border: #605856;
+    --input-bg: #E1F0C4;
+    --input-text: #247BA0;
+
+    --footer-bg: #E1F0C4;
+    --footer-text: #247BA0;
+}
+
+.main-page{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    font-family: 'Open Sans', sans-serif;
+    background-color: var(--bg-color);
+}
+
+.main-header{
+   display: none;
+}
+
+.main-content{
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+}
+
+.main-footer{
+    flex-shrink: 0;
+    padding: 10px;
+
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+}
+
+/* Содержимое контента */
+.main-main{
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+/* Мелочи */
+h1 {
+    text-align: center;
+    font-size: 25px;
+    color: var(--window-text);
+}
+  
+h2 {
+    text-align: left;
+    font-size: 17px;
+    color: var(--window-text);
+
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    padding: 0px;
+}
+
+.input-login{
+    transition-duration: 0.5s;
+    text-align: left;
+    font-size: 17px;
+    font-family: 'Open Sans', serif;
+    
+    margin: 5px;
+    border: 2px solid var(--input-border);
+    border-radius: 4px;
+}
