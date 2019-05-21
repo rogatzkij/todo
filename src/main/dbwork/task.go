@@ -30,14 +30,25 @@ func (todo *DBtodo) AddTask(task Task) bool {
 	return true
 }
 
-/*
 // удалить
-func (todo *DBtodo) DeleteTask(login string, IDTask int) (Task, bool) {
+func (todo *DBtodo) DeleteTask(login string, IDTask string) bool {
+	_, err := todo.Database.Exec(
+		`DELETE FROM E3_Tasks WHERE login = ? AND IDtask = ?`,
+		login,
+		IDTask,
+	)
+	if err != nil {
+		todo.Log.Errorf("Error delete task: user:%s ID:%s ",
+			login,
+			IDTask,
+		)
+		return false
+	}
 
+	return true
 }
 
 // изменить
-*/
 // получить
 func (todo *DBtodo) GetAllTasks(login string) ([]Task, bool) {
 	var task []Task

@@ -1,5 +1,6 @@
 
 docker build -t todo_app .
+docker container prune -f
 
 docker run --name mysql_todo -e MYSQL_ROOT_PASSWORD=ioUTRA -p3306:3306 -d mariadb
 

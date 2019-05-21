@@ -117,6 +117,7 @@ func dashboardPage(w http.ResponseWriter, r *http.Request) {
 		dashboardPagePOST(w, r)
 	case "PUT":
 	case "DELETE":
+		dashboardPageDELETE(w, r)
 	default:
 		return
 	}
@@ -155,7 +156,21 @@ func dashboardPagePOST(w http.ResponseWriter, r *http.Request) {
 
 	ToDoDatabase.AddTask(task)
 
-	dashboardPageGET(w, r)
+	http.Redirect(w, r, "/dashboard", 302)
+}
+
+// страница с делами - удаление дел
+func dashboardPageDELETE(w http.ResponseWriter, r *http.Request) {
+
+	// узнаем имя из кук
+	cookie, _ := r.Cookie("session_id")
+	username, _ := ToDoDatabase.SearchUserByCookie(cookie.Value)
+
+	taskID := r.FormValue("id")
+
+	ToDoDatabase.DeleteTask(username, taskID)
+
+	http.Redirect(w, r, "/dashboard", 302)
 }
 
 // ============================
@@ -218,5 +233,5 @@ func serv() {
 	fullMux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	ToDoDatabase.Log.Info("starting server at :80")
-	log.Fatal(http.ListenAndServe(":80", fullMux))
+	log.Fatal(http.ListenAndServe(":8081", fullMux))
 }

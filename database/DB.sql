@@ -31,8 +31,8 @@ CREATE TABLE E3_Tasks
 (
 	idTask               INTEGER AUTO_INCREMENT,
 	description          VARCHAR(20) NULL,
-	title                INTEGER NULL,
-	defer                INTEGER NULL,
+	title                VARCHAR(20) NULL,
+	defer                VARCHAR(20) NULL,
 	dateEnd              DATE NULL,
 	login                VARCHAR(20) NOT NULL,
 	PRIMARY KEY (idTask),
@@ -84,7 +84,7 @@ CREATE TABLE E6_Achievement
 CREATE TABLE E7_UsersAchievement
 (
 	login                VARCHAR(20) NOT NULL,
-	idAchievement          INTEGER NOT NULL,
+	idAchievement        INTEGER NOT NULL,
 	dateAchivment        DATE NULL,
 	PRIMARY KEY (login,idAchievement),
 	FOREIGN KEY (login) REFERENCES E1_Users(login),
