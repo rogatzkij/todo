@@ -23,8 +23,6 @@ func (todo *DBtodo) WriteUser(login, pswd, email string) bool {
 	hashBytes := (md5.Sum([]byte(pswd)))
 	hash := fmt.Sprintf("%x", hashBytes)
 
-	//debug(fmt.Sprintf("Хэш %s %s", pswd, hash))
-
 	// проверка на существование пользователя
 	if exist, _ := todo.isExistUser(login, email); exist {
 		return false

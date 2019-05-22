@@ -38,16 +38,16 @@ func registrationPage(w http.ResponseWriter, r *http.Request) {
 	inputPass := r.FormValue("password")
 	inputEmail := r.FormValue("email")
 
-	fmt.Fprintln(w, "you enter: ", inputLogin, inputPass, inputEmail)
 	ok := ToDoDatabase.WriteUser(inputLogin, inputPass, inputEmail)
 	if ok {
 		// при удачной регистрации сразу же входим
 		ToDoDatabase.Log.Infof("Successful registration: %s %s", inputLogin, inputEmail)
 		http.SetCookie(w, cookieGen(inputLogin))
 		http.Redirect(w, r, "/dashboard", http.StatusFound)
-		return
+
 	} else {
 		// TODO неудачная регистация
+		ToDoDatabase.Log.Errorf("Unsuccessful registration: %s %s", inputLogin, inputEmail)
 	}
 }
 
@@ -75,7 +75,7 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 		ToDoDatabase.Log.Infof("Successful login: %s %s", user.Login, user.Email)
 		http.SetCookie(w, cookieGen(user.Login))
 		http.Redirect(w, r, "/dashboard", http.StatusFound)
-		return
+
 	} else {
 		ToDoDatabase.Log.Errorf("Unsuccessful login: %s %s", user.Login, user.Email)
 		// TODO неудачный вход
@@ -247,6 +247,8 @@ func authMiddleware(next http.Handler) http.Handler {
 			case "/dashboard":
 				//return
 			case "/":
+				fallthrough
+			case "/main":
 				fallthrough
 			case "/login":
 				fallthrough
