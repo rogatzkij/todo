@@ -13,7 +13,6 @@
     height: 100vh;
 
     font-family: 'Open Sans', sans-serif;
-    background-color: var(--bg-color);
 }
 
 .dashboard-header{
@@ -64,12 +63,15 @@ h2 {
 /* ------------- */
 .dashboard-dashboard{
     width: 100%;
-
+    height: 100%;
     display: flex;
     flex-direction: column;
 
     justify-content: center;
     align-items: center;
+
+    background-color: var(--bg-color);
+
 }
 
 .task-block{
@@ -78,6 +80,8 @@ h2 {
     padding: 20px;
     margin: 4px;
     border: 2px solid red;
+
+    min-width: 500px;
 }
 
 .task{
@@ -133,17 +137,18 @@ h2 {
     background-color: tomato;
 }
 
-.fixedbut { 
+.btn-add-task { 
     position: fixed;
-    bottom: 40px;
-    right: 40px;
-    display: block;
+    top: 200px;
+    left: 500px;
 
-    padding: 6px 23px;
-    font-size: 17px;
+    border-radius: 20px;
 
-    transition-duration: 0.2s;
+    text-align: center;
+    font-size: 40px;
+
+    padding: 14px;
+
+    background-color: greenyellow;
+    color: blueviolet;
 }
-.fixedbut:hover {
-    background: #222;
- }

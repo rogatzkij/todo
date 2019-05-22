@@ -30,7 +30,9 @@
 
 .main-content{
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     flex: 1 0 auto;
 }
 
@@ -52,7 +54,25 @@
     background-color: var(--bg-color);
 }
 
+.btn-enter{
+
+    background-image: linear-gradient(rgb(127, 255, 238), rgb(126, 231, 231));
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    height: 20px;
+    width: 150px;
+
+    border-radius: 5px;
+}
+
 /* Мелочи */
+a{
+    text-decoration: none;
+}
+
 h1 {
     text-align: center;
     font-size: 25px;

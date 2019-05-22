@@ -7,6 +7,10 @@
     --menu-choise-text:  #247BA0;
 }
 
+body{
+    margin: 0px;
+}
+
 /* Меню */
 .block-menu{
     width: 35vh;
@@ -40,4 +44,24 @@ li a:hover {
 
     background-color: var(--menu-choise-bg);
     border-right: 5px solid var(--menu-choise-border);
+}
+
+.block-logo{
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px; 
+    margin-bottom: 20px;
+}
+
+.logo-img{
+    height: 200px;
+    align-self: center;
+
+    fill: red;
+}
+.logo-text{
+    text-align: center;
+}
+.logo-slogan{
+    text-align: center;
 }
