@@ -10,17 +10,25 @@ type Task struct {
 	Title       sql.NullString `db:"title"`       //INTEGER NULL,
 	Description sql.NullString `db:"description"` //VARCHAR(20) NULL,
 	Defer       sql.NullBool   `db:"defer"`       // INTEGER NULL,
+	Done        sql.NullBool   `db:"done"`        // INTEGER NULL,
 	DateEnd     sql.NullString `db:"dateEnd"`     // DATE NULL,
+}
+
+type TasksToTemplate struct {
+	Today    []Task
+	Tomorrow []Task
+	Soon     []Task
 }
 
 // добавить
 func (todo *DBtodo) AddTask(task Task) bool {
 	_, err := todo.Database.Exec(
-		`INSERT INTO E3_Tasks (login, title, description, defer, dateEnd) VALUES (?, ?, ?, ?, ?)`,
+		`INSERT INTO E3_Tasks (login, title, description, defer, done, dateEnd) VALUES (?, ?, ?, ?, ?, ?)`,
 		task.Login,
 		task.Title.String,
 		task.Description.String,
 		task.Defer.Bool,
+		task.Done.Bool,
 		task.DateEnd.String,
 	)
 	if err != nil {
@@ -81,7 +89,7 @@ func (todo *DBtodo) GetTodayTasks(login string) ([]Task, bool) {
 	var task []Task
 
 	err := todo.Database.Select(&task,
-		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())=0 AND login = ?",
+		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())=0 AND done=0 AND login = ?",
 		login,
 	)
 
@@ -98,7 +106,7 @@ func (todo *DBtodo) GetTomorrowTasks(login string) ([]Task, bool) {
 	var task []Task
 
 	err := todo.Database.Select(&task,
-		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())=1 AND login = ?",
+		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())=1 AND done=0 AND login = ?",
 		login,
 	)
 
@@ -115,7 +123,7 @@ func (todo *DBtodo) GetSoonTasks(login string) ([]Task, bool) {
 	var task []Task
 
 	err := todo.Database.Select(&task,
-		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())>1 AND login = ?",
+		"SELECT * FROM `E3_Tasks` WHERE DATEDIFF(dateEnd, NOW())>1 AND done=0 AND login = ?",
 		login,
 	)
 
@@ -142,4 +150,17 @@ func (todo *DBtodo) GetTask(login string, IDTask int) (Task, bool) {
 	}
 
 	return task, true
+}
+
+func (todo *DBtodo) taskDone(IDTask string, login string) bool {
+	_, err := todo.Database.Exec(
+		"UPDATE E3_Tasks SET done=1 WHERE idTask=? AND login=?",
+		IDTask,
+		login,
+	)
+
+	if err != nil {
+		return false
+	}
+	return true
 }

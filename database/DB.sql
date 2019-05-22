@@ -30,11 +30,12 @@ CREATE TABLE E2_Session
 CREATE TABLE E3_Tasks
 (
 	idTask               INTEGER AUTO_INCREMENT,
-	description          VARCHAR(20) NULL,
-	title                VARCHAR(20) NULL,
-	defer                VARCHAR(20) NULL,
+	description          TEXT NULL,
+	title                VARCHAR(255) NULL,
+	defer                BOOLEAN NULL,
 	dateEnd              DATE NULL,
 	login                VARCHAR(20) NOT NULL,
+	done				 BOOLEAN NOT NULL,
 	PRIMARY KEY (idTask),
 	FOREIGN KEY (login) REFERENCES E1_Users(login)
 );

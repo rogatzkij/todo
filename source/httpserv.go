@@ -39,7 +39,16 @@ func registrationPage(w http.ResponseWriter, r *http.Request) {
 	inputEmail := r.FormValue("email")
 
 	fmt.Fprintln(w, "you enter: ", inputLogin, inputPass, inputEmail)
-	ToDoDatabase.WriteUser(inputLogin, inputPass, inputEmail)
+	ok := ToDoDatabase.WriteUser(inputLogin, inputPass, inputEmail)
+	if ok {
+		// при удачной регистрации сразу же входим
+		ToDoDatabase.Log.Infof("Successful registration: %s %s", inputLogin, inputEmail)
+		http.SetCookie(w, cookieGen(inputLogin))
+		http.Redirect(w, r, "/dashboard", http.StatusFound)
+		return
+	} else {
+		// TODO неудачная регистация
+	}
 }
 
 // страница авторизации
@@ -63,13 +72,14 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 
 	user, ok := ToDoDatabase.GetUser(inputLogin, inputPass, inputLogin)
 	if ok {
-		ToDoDatabase.Log.Infof("you are: %s %s", user.Login, user.Email)
+		ToDoDatabase.Log.Infof("Successful login: %s %s", user.Login, user.Email)
 		http.SetCookie(w, cookieGen(user.Login))
 		http.Redirect(w, r, "/dashboard", http.StatusFound)
 		return
+	} else {
+		ToDoDatabase.Log.Errorf("Unsuccessful login: %s %s", user.Login, user.Email)
+		// TODO неудачный вход
 	}
-	fmt.Fprintln(w, "Все плохо")
-
 }
 
 // генерация куки
@@ -99,12 +109,6 @@ func mainPage(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(loginForm)
 	return
-}
-
-type TasksToTemplate struct {
-	Today    []Task
-	Tomorrow []Task
-	Soon     []Task
 }
 
 // страница с делами
@@ -138,29 +142,40 @@ func dashboardPageGET(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-//добавляем новое дело
+//добавляем новое дело или помечаем дело сделанным
 func dashboardPagePUT(w http.ResponseWriter, r *http.Request) {
 
 	// узнаем имя из кук
 	cookie, _ := r.Cookie("session_id")
 	login, _ := ToDoDatabase.SearchUserByCookie(cookie.Value)
 
-	task := Task{}
-
-	task.Login = login
-	task.Title.Scan(r.FormValue("title"))
-	fmt.Print(r.FormValue("title"))
-	task.Description.Scan(r.FormValue("description"))
-	task.DateEnd.Scan(r.FormValue("date"))
-
-	ok := ToDoDatabase.AddTask(task)
-	if ok == true {
-		w.WriteHeader(http.StatusOK)
-		ToDoDatabase.Log.Infof("Adding task successful, login: %s", login)
+	if taskID := r.FormValue("id"); taskID != "" {
+		//помечаем дело сделанным
+		ok := ToDoDatabase.taskDone(taskID, login)
+		if ok == false {
+			ToDoDatabase.Log.Errorf("Can't done task #%s by user:%s", taskID, login)
+		} else {
+			ToDoDatabase.Log.Infof("Done task #%s by user:%s", taskID, login)
+		}
 	} else {
-		w.WriteHeader(http.StatusBadRequest)
-		ToDoDatabase.Log.Errorf("Adding task unsuccessful, login: %s", login)
+		//добавляем новое дело
+		task := Task{}
+
+		task.Login = login
+		task.Title.Scan(r.FormValue("title"))
+		task.Description.Scan(r.FormValue("description"))
+		task.DateEnd.Scan(r.FormValue("date"))
+
+		ok := ToDoDatabase.AddTask(task)
+		if ok == true {
+			w.WriteHeader(http.StatusOK)
+			ToDoDatabase.Log.Infof("Adding task successful, login: %s", login)
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
+			ToDoDatabase.Log.Errorf("Adding task unsuccessful, login: %s", login)
+		}
 	}
+
 }
 
 // страница с делами - удаление дел
@@ -182,6 +197,22 @@ func dashboardPageDELETE(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// архив дел
+func archivePageGET(w http.ResponseWriter, r *http.Request) {
+	// узнаем имя из кук
+	cookie, _ := r.Cookie("session_id")
+	username, _ := ToDoDatabase.SearchUserByCookie(cookie.Value)
+
+	// читаем дела
+	tasks, _ := ToDoDatabase.GetArchiveTasks(username)
+
+	// вставляем в шаблон
+	tmpl := template.Must(template.ParseFiles(sTEMPLATE_FLOADER + "/archive.html"))
+	tmpl.Execute(w, tasks)
+
+	w.WriteHeader(http.StatusOK)
+}
+
 // ============================
 // ||       Мидлвары         ||
 // ============================
@@ -201,6 +232,8 @@ func authMiddleware(next http.Handler) http.Handler {
 		if ok == false { // если не ок
 			ToDoDatabase.Log.Errorf("auth failed: %s", r.URL.Path)
 			switch r.URL.Path {
+			case "/archive":
+				fallthrough
 			case "/dashboard":
 				http.Redirect(w, r, "/", http.StatusFound)
 				return
@@ -209,6 +242,8 @@ func authMiddleware(next http.Handler) http.Handler {
 		} else { // если ок
 			ToDoDatabase.Log.Infof("auth accepted: %s", r.URL.Path)
 			switch r.URL.Path {
+			case "/archive":
+				//return
 			case "/dashboard":
 				//return
 			case "/":
@@ -234,6 +269,7 @@ func serv() {
 	userMux := http.NewServeMux()
 	userMux.HandleFunc("/login", loginPage)
 	userMux.HandleFunc("/dashboard", dashboardPage)
+	userMux.HandleFunc("/archive", archivePageGET)
 	userMux.HandleFunc("/registration", registrationPage)
 	userMux.HandleFunc("/", mainPage)
 

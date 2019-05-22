@@ -18,7 +18,7 @@ const (
 	sWRITEUSER = `INSERT INTO E1_Users (login, email, hash) VALUES (?, ?, ?)`
 )
 
-func (todo *DBtodo) WriteUser(login, pswd, email string) (bool, error) {
+func (todo *DBtodo) WriteUser(login, pswd, email string) bool {
 
 	hashBytes := (md5.Sum([]byte(pswd)))
 	hash := fmt.Sprintf("%x", hashBytes)
@@ -27,15 +27,15 @@ func (todo *DBtodo) WriteUser(login, pswd, email string) (bool, error) {
 
 	// проверка на существование пользователя
 	if exist, _ := todo.isExistUser(login, email); exist {
-		return false, nil
+		return false
 	}
 
 	_, err := todo.Database.Exec(sWRITEUSER, login, email, hash)
 	if err != nil {
-		return false, fmt.Errorf("Неудачная запись пользователя %s", login)
+		return false
 	}
 
-	return true, nil
+	return true
 }
 
 /*

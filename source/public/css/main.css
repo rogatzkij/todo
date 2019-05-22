@@ -21,7 +21,6 @@
     height: 100vh;
 
     font-family: 'Open Sans', sans-serif;
-    background-color: var(--bg-color);
 }
 
 .main-header{
@@ -34,6 +33,9 @@
     justify-content: center;
     flex-direction: column;
     flex: 1 0 auto;
+
+    background-color: var(--bg-color);
+
 }
 
 .main-footer{
@@ -67,7 +69,21 @@
 
     border-radius: 5px;
 }
+/**/
+.block-content{
+    display: flex;
+    flex-direction: row;
+}
 
+.content-img{
+    margin: 20px;
+    height: 400px;
+}
+
+.content-text{
+    margin: 20px;
+    width: 400px;
+}
 /* Мелочи */
 a{
     text-decoration: none;

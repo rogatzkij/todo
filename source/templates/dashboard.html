@@ -40,7 +40,7 @@
                 </div>
                 <ul>
                     <li> <h2 href="#">Меню</h2> </li>
-                    <li> <a href="main">Главная страница</a> </li>
+                    <li> <a href="archive">Архив дел</a> </li>
                 </ul>    
             </div>
             <!-- Окно авторизации -->
@@ -56,7 +56,7 @@
                         <div  class="task-head-block">
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
-                                <button class="btn done-btn">&#128402; done</button>
+                                <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
                                 <button class="btn edit-btn">&#9998; edit</button>
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
@@ -78,7 +78,7 @@
                         <div  class="task-head-block">
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
-                                <button class="btn done-btn">&#128402; done</button>
+                                <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
                                 <button class="btn edit-btn">&#9998; edit</button>
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
@@ -100,7 +100,7 @@
                         <div  class="task-head-block">
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
-                                <button class="btn done-btn">&#128402; done</button>
+                                    <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
                                 <button class="btn edit-btn">&#9998; edit</button>
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
@@ -152,14 +152,10 @@
                     
                     <button class="btn done-btn" onclick="taskAdd()" >&#128402; OK </button>
                     <button class="btn" onclick="document.getElementById('id01').style.display='none'">&times;</button>
-
             </div>
 
           
         </div>
-        
-
-
     </div>
 
 </body>
