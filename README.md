@@ -6,7 +6,9 @@
 ## И как это запустить?
 
 Рабочий вариант находится по адресу [todotodo.ml](http://todotodo.ml)
+
 Что бы нам запустить веб-сервис локально потребуются 3 docker контейнера
+
 1. MariaDB
 ~~~bash
 docker run --name mysql_todo -e MYSQL_ROOT_PASSWORD=password -d mariadb
@@ -17,6 +19,7 @@ docker run --name mysql_todo -e MYSQL_ROOT_PASSWORD=password -d mariadb
 ~~~bash
 docker run --name adminer_todo --link mysql_todo:db -d -p 8080:8080 adminer
 ~~~
+
 5. Сама todo'шка
 ~~~bash
 docker build -t todo_app ./source/
@@ -42,6 +45,7 @@ html\css + немного js.
 * нет выдачи сообщения ошибки о неправильном логине\пароле при входе и при регистрации
 * нет возможности редактировать созданные дела
 * изначально планироволось выдавать пользователям ачивки за сделанные задания
+* из БД пока не удаляются не активные сессии
 
 ## Что стоило бы переделать?
 * отдавать статический контент не средствами go, а поручить это apache или nginx (как и https соединение)
