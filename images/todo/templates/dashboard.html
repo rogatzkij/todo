@@ -41,6 +41,7 @@
                 <ul>
                     <li> <h2 href="#">Меню</h2> </li>
                     <li> <a href="archive">Архив дел</a> </li>
+                    <li> <a href="#" onclick="Logout()">Выйти</a> </li>
                 </ul>    
             </div>
             <!-- Окно авторизации -->
@@ -57,7 +58,9 @@
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
                                 <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
+                                <!--
                                 <button class="btn edit-btn">&#9998; edit</button>
+                                -->
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
                         </div>
@@ -79,7 +82,9 @@
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
                                 <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
+                                <!--
                                 <button class="btn edit-btn">&#9998; edit</button>
+                                -->
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
                         </div>
@@ -101,7 +106,9 @@
                             <h2 class="task-headline">{{.Title.String}}</h2>
                             <div  class="task-btn-block">
                                     <button class="btn done-btn"  onclick="taskDone(this)" >&#128402; done</button>
+                                    <!--
                                 <button class="btn edit-btn">&#9998; edit</button>
+                                -->
                                 <button class="btn delete-btn"  onclick="taskDelete(this)" > &#128403; delete</button>   
                             </div>
                         </div>
@@ -125,36 +132,41 @@
         </center>
     </div>
     
-    <!-- The Modal -->
-    <div id="id01" class="modal">
+     <!-- The Modal -->
+     <div id="id01" class="modal">
         
         <div class="modal-container">
             <div class="modal-container-title">
-                <h1>Add new task</h1>
+                <h1>Добавить новое задание</h1>
             </div>
 
             <div class="modal-form">
                     
                     <div class="modal-ci-title-container">
-                        <h2>Title</h2>
+                        <h2>Заголовок</h2>
                         <input class="modal-input-title" type="text" name="title">
                     </div> 
                     
                     <div class="modal-ci-description-container">
-                        <h2>Description</h2>    
-                        <input class="modal-input-description" type="text" name="description">                    
+                        <h2>Описание</h2>     
+                        <textarea class="modal-input-description" name="description" rows="5" cols="33"></textarea>             
                     </div>
                     
                     <div class="modal-ci-date-container">
-                        <h2>Date</h2>    
-                        <input class="modal-input-date" type="date" name="date">
+                        <h2>Дата исполнения</h2>    
+                        <input class="modal-input-date" type="date" name="date" value="2012-3-23">
                     </div>  
                     
-                    <button class="btn done-btn" onclick="taskAdd()" >&#128402; OK </button>
-                    <button class="btn" onclick="document.getElementById('id01').style.display='none'">&times;</button>
-            </div>
+                    <div id="errMessageContainer" class="modal-ci-errMessage-container">
+                        <div id="errMessage" class="modal-ci-errMessage"></div>
+                    </div> 
 
-          
+                    <div class="modal-ci-btn-container">
+                        <button class="btn modal-close" onclick="document.getElementById('id01').style.display='none'">&times; Закрыть</button>
+                        <button class="btn modal-done" onclick="taskAdd()" >&#128402; Добавить </button>
+                    </div>  
+
+            </div> 
         </div>
     </div>
 

@@ -53,13 +53,34 @@ function taskAdd(){
     let elemTitle = document.getElementsByClassName('modal-input-title');
     let elemDescr = document.getElementsByClassName('modal-input-description');
     let elemDate = document.getElementsByClassName('modal-input-date');
+    
+    const pleaseMsg = "Пожалуйста"
+    let errMsg = pleaseMsg; 
+    if(elemTitle[0].value == ""){
+        errMsg += ", введите заголовок";
+    }
+    if(elemDescr[0].value == ""){
+        errMsg += ", введите описание";
+    }
+    if(elemDate[0].value  == ""){
+        errMsg += ", установите дату";
+    }
+    errMsg +="."
 
-    let querry = "/dashboard?title="+elemTitle[0].value+"&description="+elemDescr[0].value+"&date="+elemDate[0].value
-   
-    document.getElementById('id01').style.display='none' 
-    
-    xhttp.open("PUT",querry , true);    
-    xhttp.send();
-    
+    if(errMsg == pleaseMsg+"."){
+        let querry = "/dashboard?title="+elemTitle[0].value+"&description="+elemDescr[0].value+"&date="+elemDate[0].value
+        document.getElementById('id01').style.display='none' 
+        xhttp.open("PUT",querry , true);    
+        xhttp.send();
+        location.reload(true);
+    }else{
+        document.getElementById('errMessage').innerText = errMsg
+        document.getElementById('errMessageContainer').style.display='block'
+    }
+}
+
+// разлогинеться
+function Logout(){
+    document.cookie = 'session_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     location.reload(true);
 }
