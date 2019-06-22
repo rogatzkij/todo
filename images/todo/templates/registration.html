@@ -49,6 +49,9 @@
                     <h2>Email:</h2>
                     <input class="input-email" type="email" name="email">
                     <h2>Пароль:</h2>
+                    {{if .MsgFlag}}
+                        <b>ERROR!!!</b>
+                    {{end}}
                     <input class="input-pswd" type="password" name="password">
                     <input class="input-submit" type="submit" value="Registration">
                 </form>   

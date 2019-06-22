@@ -33,7 +33,6 @@ const (
 )
 
 func (todo *DBtodo) WriteCookie(login, cookie string) error {
-
 	_, err := todo.Database.Exec(sWRITECOOKIE, login, cookie)
 	if err != nil {
 		return fmt.Errorf("Неудачная запись %s", cookie)
@@ -48,7 +47,6 @@ const (
 )
 
 func (todo *DBtodo) DeleteCookie(cookie string) error {
-
 	_, err := todo.Database.Exec(sDELETECOOKIE, cookie)
 	if err != nil {
 		return fmt.Errorf("Неудачное удаление %s", cookie)
@@ -63,7 +61,6 @@ const (
 )
 
 func (todo *DBtodo) DeleteAllCookie(login string) error {
-
 	_, err := todo.Database.Exec(sDELETEALLCOOKIE, login)
 	if err != nil {
 		return fmt.Errorf("Неудачное удаление cookie для %s", login)

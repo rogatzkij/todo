@@ -15,7 +15,6 @@ const (
 
 // ParseSQLSettings - чтение настроек из конфиг файла
 func (todo *DBtodo) ParseSQLSettings(path string) error {
-
 	bytes, err := ioutil.ReadFile(path)
 	if err != nil { // если файла нет создаем с настройками поумолчанию
 		todo.Log.Errorf(msgErrorOpenFile, path)

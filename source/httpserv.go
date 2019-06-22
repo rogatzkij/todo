@@ -18,21 +18,40 @@ const (
 // ||       Хэндлеры         ||
 // ============================
 
+type MsgsStruct struct {
+	MsgFlag bool
+}
+
 // страница регистрации
 func registrationPage(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		registrationPageGET(w, r)
+	case "POST":
+		registrationPagePOST(w, r)
+	default:
+		return
+	}
+}
+
+// страница регистрации GET
+func registrationPageGET(w http.ResponseWriter, r *http.Request) {
 
 	path := sTEMPLATE_FLOADER + "/registration.html"
 
-	registrationForm, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Файл %s не найден\n", path)
-		return
+	// вставляем в шаблон
+	msgs := MsgsStruct{
+		MsgFlag: false,
 	}
 
-	if r.Method != http.MethodPost {
-		w.Write(registrationForm)
-		return
-	}
+	tmpl := template.Must(template.ParseFiles(path))
+	tmpl.Execute(w, msgs)
+}
+
+// страница регистрации POST
+func registrationPagePOST(w http.ResponseWriter, r *http.Request) {
+
+	path := sTEMPLATE_FLOADER + "/registration.html"
 
 	inputLogin := r.FormValue("login")
 	inputPass := r.FormValue("password")
@@ -48,24 +67,46 @@ func registrationPage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		// TODO неудачная регистация
 		ToDoDatabase.Log.Errorf("Unsuccessful registration: %s %s", inputLogin, inputEmail)
+
+		msgs := MsgsStruct{
+			MsgFlag: true,
+		}
+
+		tmpl := template.Must(template.ParseFiles(path))
+		tmpl.Execute(w, msgs)
 	}
 }
 
 // страница авторизации
 func loginPage(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case "GET":
+		loginPageGET(w, r)
+	case "POST":
+		loginPagePOST(w, r)
+	default:
+		return
+	}
+}
+
+// страница авторизации GET
+func loginPageGET(w http.ResponseWriter, r *http.Request) {
 
 	path := sTEMPLATE_FLOADER + "/login.html"
 
-	loginForm, err := ioutil.ReadFile(path)
-	if err != nil {
-		fmt.Printf("Файл %s не найден\n", path)
-		return
+	// вставляем в шаблон
+	msgs := MsgsStruct{
+		MsgFlag: false,
 	}
 
-	if r.Method != http.MethodPost {
-		w.Write(loginForm)
-		return
-	}
+	tmpl := template.Must(template.ParseFiles(path))
+	tmpl.Execute(w, msgs)
+}
+
+// страница авторизации POST
+func loginPagePOST(w http.ResponseWriter, r *http.Request) {
+
+	path := sTEMPLATE_FLOADER + "/login.html"
 
 	inputLogin := r.FormValue("login")
 	inputPass := r.FormValue("password")
@@ -79,6 +120,13 @@ func loginPage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		ToDoDatabase.Log.Errorf("Unsuccessful login: %s %s", user.Login, user.Email)
 		// TODO неудачный вход
+		// вставляем в шаблон
+		msgs := MsgsStruct{
+			MsgFlag: true,
+		}
+
+		tmpl := template.Must(template.ParseFiles(path))
+		tmpl.Execute(w, msgs)
 	}
 }
 
@@ -277,7 +325,6 @@ func serv() {
 
 	fullMux := http.NewServeMux()
 	fullMux.Handle("/", authMiddleware(userMux))
-	//fullMux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
 
 	ToDoDatabase.Log.Info("starting server at :8081")
 	log.Fatal(http.ListenAndServe(":8081", fullMux))

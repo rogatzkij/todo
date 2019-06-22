@@ -46,6 +46,9 @@
                     <h2>Логин или email:</h2>
                     <input class="input-login" type="text" name="login">
                     <h2>Пароль:</h2>
+                    {{if .MsgFlag}}
+                        <b>ERROR!!!</b>
+                    {{end}}
                     <input class="input-pswd" type="password" name="password">
                     <input class="input-submit" type="submit" value="Login">
                 </form>    
