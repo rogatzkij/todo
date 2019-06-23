@@ -84,3 +84,15 @@ function Logout(){
     document.cookie = 'session_id=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     location.reload(true);
 }
+
+function openWindow(){
+    
+    document.getElementById('id01').style.display='block';   
+    document.getElementById('dashboard-content-id').style.webkitFilter = "blur(10px)";
+
+}
+
+function closeWindow(){
+    document.getElementById('id01').style.display='none';   
+    document.getElementById('dashboard-content-id').style.webkitFilter = "blur(0px)";
+}

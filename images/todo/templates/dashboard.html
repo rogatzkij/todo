@@ -29,7 +29,7 @@
         <div class="dashboard-header">header</div>
         
         <!-- Контент -->        
-        <div class="dashboard-content">
+        <div class="dashboard-content" id="dashboard-content-id">
             <!-- Меню -->
             <div class="block-menu">
                 <!-- Лого -->
@@ -47,7 +47,7 @@
             <!-- Окно авторизации -->
             <div class="dashboard-dashboard">
 
-                <div class="btn-add-task" onclick="document.getElementById('id01').style.display='block'">+ Добавить дело</div>
+                <div class="btn-add-task" onclick="openWindow()">+ Добавить дело</div>
                 
                 <!-- Сегодня -->
                 <div class="task-block">
@@ -162,7 +162,7 @@
                     </div> 
 
                     <div class="modal-ci-btn-container">
-                        <button class="btn modal-close" onclick="document.getElementById('id01').style.display='none'">&times; Закрыть</button>
+                        <button class="btn modal-close" onclick="closeWindow()">&times; Закрыть</button>
                         <button class="btn modal-done" onclick="taskAdd()" >&#128402; Добавить </button>
                     </div>  
 
