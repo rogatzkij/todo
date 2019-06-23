@@ -144,7 +144,7 @@ h2 {
 
 .btn-add-task { 
     position: fixed;
-    top: 200px;
+    top: 100px;
     left: 400px;
 
     border-style: solid;
@@ -168,4 +168,5 @@ h2 {
 
     transition-duration: 0.3s;
     transition-timing-function: ease;
+    cursor: pointer;
 }
